@@ -1,0 +1,2 @@
+a = "Yernar"
+print(a)

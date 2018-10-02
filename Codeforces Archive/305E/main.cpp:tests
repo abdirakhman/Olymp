@@ -1,0 +1,17 @@
+[
+	{
+		"test": "abacaba\n",
+		"uncorrect_answers":
+		[
+			"First\n2",
+			"First"
+		]
+	},
+	{
+		"test": "abcde\n",
+		"uncorrect_answers":
+		[
+			"Second"
+		]
+	}
+]

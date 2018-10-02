@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1526987069 source:/home/ismail_a/Documents/CODES/Math and Code/R/kek/kek/main.cpp
+	<cstring>
+	<vector>
+	<list>
+	<map>
+	<set>
+	<deque>
+	<stack>
+	<bitset>
+	<algorithm>
+	<functional>
+	<numeric>
+	<utility>
+	<sstream>
+	<iostream>
+	<iomanip>
+	<cstdio>
+	<queue>
+	<cmath>
+	<cstdlib>
+	<ctime>
+	<cassert>
+
