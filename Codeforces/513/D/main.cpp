@@ -53,7 +53,7 @@ long long readInt() {
         if (ch >= '0' && ch <= '9') break;
         ch = getchar();
     }
-    if (ch == '-') minus1 = true; else result = ch-'0';
+    if (ch == '-') minus1 = true; else result = ch-'0';                    
     while (true) {
         ch = getchar();
         if (ch < '0' || ch > '9') break;
@@ -64,12 +64,25 @@ long long readInt() {
     else
         return result;
 }
-
+int L[MAXN];
+int R[MAXN];
 
 int main() {
 	#ifdef IZI_KATKA
 	assert(freopen("input", "r", stdin));
     assert(freopen("output", "w", stdout));
     #endif
+	int n = readInt();
+	for (int i = 1; i <= n; i++) {
+		L[i] = readInt();
+		R[i] = readInt();
+	}
+	sort(L + 1, L + 1 + n);
+	sort(R + 1, R + 1 + n);
+	ll res =  0;
+	for (int i = 1; i <= n; i++) {
+		res += max(L[i], R[i]);	
+	}
+	cout << res + n;
     return 0;
 }

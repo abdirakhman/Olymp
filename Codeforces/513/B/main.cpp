@@ -66,10 +66,29 @@ long long readInt() {
 }
 
 
+ll calc(ll x) {
+	ll ans = 0;
+	while(x) {
+		ans += (x % 10);
+		x /= 10;
+	}
+	return ans;
+}
+
 int main() {
 	#ifdef IZI_KATKA
 	assert(freopen("input", "r", stdin));
     assert(freopen("output", "w", stdout));
     #endif
+    ll n = readInt();
+    if (n < 10) {
+    	cout << n;
+    } else {
+    	ll sum = 9;
+    	while(sum * 10 + 9 <= n) {
+    		sum = sum * 10 + 9; 
+    	}
+    	cout << calc(sum) + calc(n - sum);
+    }
     return 0;
 }

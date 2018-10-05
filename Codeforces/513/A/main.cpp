@@ -65,11 +65,25 @@ long long readInt() {
         return result;
 }
 
+map <char, int> cnt;
 
 int main() {
 	#ifdef IZI_KATKA
 	assert(freopen("input", "r", stdin));
     assert(freopen("output", "w", stdout));
     #endif
-    return 0;
+    int n = readInt();
+    string s;
+    cin >> s;
+    for (char i : s) {
+    	cnt[i]++;
+    }
+	int kek1 = cnt['8'];
+	int kek2 = n - kek1;
+	while(kek1 > kek2 / 10) {
+		kek1 --;
+		kek2 ++;
+	}
+	cout << min(kek1, kek2 / 10);
+	return 0;       
 }

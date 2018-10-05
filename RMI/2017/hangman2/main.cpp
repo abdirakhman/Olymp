@@ -22,13 +22,16 @@ SXR0aXAkI0JwbXptI3FhI3Z3I293bCNqY2IjUG0jMCNicG0jVHFkcXZvLyNCcG0jQW10bjBhY2phcWFi
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
+#include <unordered_map>
+#pragma GCC optimize("Ofast")
+
 
 #define F first
 #define S second
 #define endl '\n'
 #define deb(x) cout<<#x<<' '<<x<<endl;
 #define pb push_back
-
+//#define int long long
 /*
 #ifdef IZI_KATKA
 #define int __int64_t
@@ -64,64 +67,81 @@ long long readInt() {
     else
         return result;
 }
-ll a[MAXN];
-ll b[MAXN];
 
-ll pref_a[MAXN];
-ll pref_b[MAXN];
 
-ll mn[MAXN];
-ll n, m;
-
-ll x;
-
-ll GGGG(ll kek) {
-	int l = 1, r = m;
-	while(r - l > 1) {
-		int mid = (l + r) / 2;
-		if (kek * mn[mid] <= x) {
-			l = mid;
-		} else {
-			r = mid;
-		}
-	}
-	return (kek * mn[r] <= x ? r : kek * mn[l] <= x ? l : 0);
-}
-
-int main() {
+main() {
 	#ifdef IZI_KATKA
 	assert(freopen("input", "r", stdin));
     assert(freopen("output", "w", stdout));
     #endif
-     n = readInt(), m = readInt();
-    for (int i =  1; i <= n; i++) {
-    	a[i] = readInt();
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0); 
+    const int N = 3*1e4+1;
+	const ll mod = 36028797018963913;    
+	const ll B = 29;
+    ll Hash[N];
+	ll Hash1[N];
+	ll P[N];
+	
+	bool ans[N];
+
+    int T = readInt();
+    P[0] = 1;
+    for (int i = 1; i < N; i++) {
+    	P[i] = (P[i-1] * B) % mod;
     }
-    for (int j = 1; j <= m; j++) {
-    	b[j] = readInt();
-    }
-    x = readInt();
-    for (int i = 1; i <= n; i++) {
-    	pref_a[i] = pref_a[i - 1] + a[i];
-    }
-	for (int i = 1; i <= m; i++) {
-		pref_b[i] = pref_b[i - 1] + b[i];
-	}
-	multiset < pair <int, int> > S;
-	for (int i = 1; i <= m; i++) {
-		mn[i] = MOD;
-	}
-	for (int i = 1; i <= m; i++) {
-		for (int j = i; j <= m; j++) {
-			mn[j-i+1] = min(mn[j-i+1], pref_b[j] - pref_b[i - 1]);
+	while(T--) {
+		int n = readInt(),k = readInt();
+		char s[n+1][k];
+
+		for (int i = 1; i <= n; i++) {
+			for (int j = 0; j < k; j++) {
+				s[i][j] = getchar();
+			}
+			getchar();
 		}
-	}
-	ll mx = 0;
-	for (int i = 1; i <= n; i++) {
-		for (int j = i; j <= n; j++) {
-			mx = max(mx, (j - i + 1) * GGGG(pref_a[j] - pref_a[i - 1]));
+		if (n > k) {
+			memset(Hash, 0, sizeof(Hash));
+			for (int i = 1; i <= n; i++) {
+				for (int j = 0; j < k; j++) {
+					Hash[i] = (Hash[i] + ((s[i][j] - 'a' + 1) * P[j])%mod)%mod;
+				}
+			}
+			unordered_map<ll, ll> H;
+			for (int i = 0; i < k; i++) {
+				for (int j = i+1; j < k; j++) {
+				    H.clear();
+					for (int I = 1; I <= n; I++) {
+						Hash1[I] = Hash[I];
+						Hash1[I] = (Hash1[I] - (P[i] * (s[I][i] - 'a' + 1)) % mod + mod) % mod;
+                        Hash1[I] = (Hash1[I] - (P[j] * (s[I][j] - 'a' + 1)) % mod + mod) % mod;
+                        H[Hash1[I]]++;
+
+					}
+					for (int I = 1; I <= n; I++) {
+						if (H[Hash1[I]] > 1) {
+							ans[I] = 1;
+						}
+					}
+				}
+			}			
+		} else {
+			for (int i = 1; i <= n; i++) {
+				for (int j = i + 1; j <= n; j++) {
+					int dif = 0;
+					for (int L = 0; L < k; L++) {
+						dif += (s[i][L] != s[j][L]);
+					}					
+					if (dif <= 2) {
+						ans[i] = ans[j] = 1;
+					}
+				}
+			}
 		}
-	}
-	cout << mx;
-	return 0;
+		for (int i = 1; i <= n; i++) {
+			putchar(ans[i]+'0');
+			ans[i]= 0;
+		}		     
+		putchar('\n');
+	}                
+    return 0;
 }
