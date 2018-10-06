@@ -1,9 +1,3 @@
-/*
-NK <=3*10^4
-max(N, K) <= 173
-Write solution for n > k and k < n
-*/
-
 /**
 SXR0aXAkI0JwbXptI3FhI3Z3I293bCNqY2IjUG0jMCNicG0jVHFkcXZvLyNCcG0jQW10bjBhY2phcWFicXZvLyNNYm16dml0MSNWdyNhdGN1am16I2tpdiNhbXF9bSNQcXUjVnd6I0F0bW14MSNQcWEjaXptI2l0dCNicHF2b2EjUXYjYnBtI3BtaWRtdmEjaXZsI3d2I21pemJwMSNFcHcjcWEjYnBtem0ja2l2I3F2Ym16a21sbSNRdiNQcWEjeHptYW12a20jbXtrbXhiI0lhI3BtI3htenVxYmJtYnBHI1BtI3N2d2VtYnAjRXBpYiMraXh4bWl6bWJwI2J3I1BxYSNrem1pYmN6bWEjSWEsI0ptbnd6bSN3eiNJbmJteiN3eiNKbXBxdmwjYnBtdTEjVnd6I2FwaXR0I2JwbXwja3d1eGlhYSNJY29wYiN3biNwcWEjc3Z3ZXRtbG9tI017a214YiNpYSNQbSNlcXR0bWJwMSNQcWEjYnB6d3ZtI2x3YnAjbXtibXZsI1dkbXojYnBtI3BtaWRtdmEjSXZsI3d2I21pemJwLyNpdmwjUG0jbm1tdG1icCNWdyNuaWJxb2NtI3F2I29jaXpscXZvI0l2bCN4em1hbXpkcXZvI2JwbXUvI053eiNQbSNxYSNicG0jVXdhYiNQcW9wMSNCcG0jQWN4em11bSMrcXYjb3R3enwsMQ==
 */
@@ -28,16 +22,13 @@ SXR0aXAkI0JwbXptI3FhI3Z3I293bCNqY2IjUG0jMCNicG0jVHFkcXZvLyNCcG0jQW10bjBhY2phcWFi
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
-#include <unordered_map>
-#pragma GCC optimize("Ofast")
-
 
 #define F first
 #define S second
 #define endl '\n'
 #define deb(x) cout<<#x<<' '<<x<<endl;
 #define pb push_back
-//#define int long long
+
 /*
 #ifdef IZI_KATKA
 #define int __int64_t
@@ -45,6 +36,10 @@ SXR0aXAkI0JwbXptI3FhI3Z3I293bCNqY2IjUG0jMCNicG0jVHFkcXZvLyNCcG0jQW10bjBhY2phcWFi
 #define int __int64
 #endif
 */
+
+#define ld long double
+
+#define double ld
 
 const long long MOD = 1e9 + 7;
 const long long MAXN = 1e6 + 1;
@@ -75,79 +70,86 @@ long long readInt() {
 }
 
 
-main() {
+const double eps = 1e-18;
+const double EPS = 1e-8;
+const ll INF = 1e7;
+
+bool equalTo ( double a, double b ){ if ( fabs ( a - b ) <= eps ) return true; else return false; }
+bool notEqual ( double a, double b ){if ( fabs ( a - b ) > eps ) return true; else return false; }
+bool lessThan ( double a, double b ){ if ( a + eps < b ) return true; else return false; }
+bool lessThanEqual ( double a, double b ){if ( a < b + eps ) return true;   else return false;}
+bool greaterThan ( double a, double b ){if ( a > b + eps ) return true;else return false;}
+bool greaterThanEqual ( double a, double b ){if ( a + eps > b ) return true;else return false;}
+
+
+
+int x[MAXN];
+int y[MAXN];
+int n;
+
+double dist(double X, double Y, int i) {
+	return sqrt((X - 1.0 * x[i]) * (X - 1.0 * x[i]) + (Y - 1.0 * y[i]) * (Y - 1.0 * y[i]));
+}
+
+double f(double X, double Y) {
+	double res = 0.0;
+	for (int i = 1; i <= n; i++) {
+		if (greaterThan(dist(X, Y, i), res)) {
+			res = dist(X, Y, i);
+		}
+	}
+	if (greaterThan(Y, res)) {
+		res = Y;
+	}
+	return res;
+}
+
+
+int main() {
 	#ifdef IZI_KATKA
 	assert(freopen("input", "r", stdin));
     assert(freopen("output", "w", stdout));
     #endif
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0); 
-    const int N = 3*1e4+1;
-	const ll mod = 36028797018963913;    
-	const ll B = 29;
-    ll Hash[N];
-	ll Hash1[N];
-	ll P[N];
-	
-	bool ans[N];
-
-    int T = readInt();
-    P[0] = 1;
-    for (int i = 1; i < N; i++) {
-    	P[i] = (P[i-1] * B) % mod;
+     n = readInt();
+    bool Kek = 0, keK = 0;
+    for (int i = 1; i <= n; i++) {
+    	x[i] = readInt(), y[i] = readInt();
+    	if (y[i] > 0) Kek = 1;
+    	else keK = 1;
     }
-	while(T--) {
-		int n = readInt(),k = readInt();
-		char s[n+1][k];
-
-		for (int i = 1; i <= n; i++) {
-			for (int j = 0; j < k; j++) {
-				s[i][j] = getchar();
+    if (Kek && keK) {
+    	cout << -1;
+    	return 0;
+    }	
+    if (keK) {
+    	for (int i = 1; i <= n; i++) {
+    		y[i] = -1;
+    	}
+    }
+	double L_x = -INF, R_x = INF;
+	double L_y = -INF, R_y = INF;
+	int oper = 500;
+	while(oper--) {
+		double x_mid = (L_x + R_x) / 2.0;
+		double y_mid = (L_y + R_y) / 2.0;
+		double res = f(x_mid, y_mid);
+		if (notEqual(L_x, R_x)) {
+			double res1 = f(x_mid+EPS,y_mid);	
+			if (lessThan(res, res1)) {
+				R_x = x_mid;
+			} else {
+				L_x = x_mid;
 			}
-			getchar();
 		}
-		if (n > k) {
-			memset(Hash, 0, sizeof(Hash));
-			for (int i = 1; i <= n; i++) {
-				for (int j = 0; j < k; j++) {
-					Hash[i] = (Hash[i] + ((s[i][j] - 'a' + 1) * P[j])%mod)%mod;
-				}
-			}
-			unordered_map<ll, ll> H;
-			for (int i = 0; i < k; i++) {
-				for (int j = i+1; j < k; j++) {
-				    H.clear();
-					for (int I = 1; I <= n; I++) {
-						Hash1[I] = Hash[I];
-						Hash1[I] = (Hash1[I] - (P[i] * (s[I][i] - 'a' + 1)) % mod + mod) % mod;
-                        Hash1[I] = (Hash1[I] - (P[j] * (s[I][j] - 'a' + 1)) % mod + mod) % mod;
-                        H[Hash1[I]]++;
-
-					}
-					for (int I = 1; I <= n; I++) {
-						if (H[Hash1[I]] > 1) {
-							ans[I] = 1;
-						}
-					}
-				}
+		if (notEqual(L_y, R_y)) {
+			double res1 = f(x_mid,y_mid +EPS);	
+			if (lessThan(res, res1)) {
+				R_y = y_mid;
+			} else {
+				L_y = y_mid;
 			}			
-		} else {
-			for (int i = 1; i <= n; i++) {
-				for (int j = i + 1; j <= n; j++) {
-					int dif = 0;
-					for (int L = 0; L < k; L++) {
-						dif += (s[i][L] != s[j][L]);
-					}					
-					if (dif <= 2) {
-						ans[i] = ans[j] = 1;
-					}
-				}
-			}
 		}
-		for (int i = 1; i <= n; i++) {
-			putchar(ans[i]+'0');
-			ans[i]= 0;
-		}		     
-		putchar('\n');
-	}                
-    return 0;
+	}
+	cout << fixed << setprecision(10)  << R_y;
+   	return 0;
 }
