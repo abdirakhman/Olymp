@@ -4,38 +4,43 @@
 using namespace std;
 
 
-vector<int> prefix_function (string s) {
+vector<int> z_function (string s) {
 	int n = (int) s.length();
-	vector<int> pi (n);
-	for (int i=1; i<n; ++i) {
-		int j = pi[i-1];
-		while (j > 0 && s[i] != s[j])
-			j = pi[j-1];
-		if (s[i] == s[j])  ++j;
-		pi[i] = j;
+	vector<int> z (n);
+	for (int i=1, l=0, r=0; i<n; ++i) {
+		if (i <= r)
+			z[i] = min (r-i+1, z[i-l]);
+		while (i+z[i] < n && s[z[i]] == s[i+z[i]])
+			++z[i];
+		if (i+z[i]-1 > r)
+			l = i,  r = i+z[i]-1;
 	}
-	return pi;
+	return z;
 }
 
 int calc(vector <int> v, int bastau, int MX_SZ) {
 	int ans = 0;
-	for (int i = bastau + 1; i < v.size(); i ++) {
+	for (int i = bastau; i < v.size(); i ++) {
 		if (v[i] == MX_SZ) ans ++;
 	} 
 	return ans;
 }
-
+                        																				
 int main(int argc, char* argv[]) {
+  
   registerTestlibCmd(argc, argv);
-  
+ 
   string test = inf.readString();
-  
+ 
   string jans = ans.readString();
   string pans = ouf.readString();
-  vector <int> jstr = prefix_function(test + '@' + jans);
-  vector <int> pstr = prefix_function(test + '@' + pans);
-  int calc_j = calc(jstr, test.size(), jans.size());
-  int calc_p = calc(pstr, test.size(), pans.size());
+	if (pans.size() == 0) {
+		quitf(_wa, "no file");	
+	}
+  vector <int> jstr = z_function(jans + '@' + test);
+  vector <int> pstr = z_function(pans + '@' + test);
+  int calc_j = calc(jstr, jans.size(), jans.size());
+  int calc_p = calc(pstr, pans.size(), pans.size());
   if (calc_j > calc_p) {
   	quitf(_wa, "Jury malades");
   } else if (calc_j == calc_p) {
