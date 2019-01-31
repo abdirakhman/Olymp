@@ -58,52 +58,8 @@ long long readInt() {
         return result;
 }
 
-int a[MAXN];
-int n;
+int cnt[52];
 
-void kos() {
-	a[n]++;
-	for (int i = n; i >= 1; i--) {
-		if (a[i] == 26) {
-			a[i] = 0;
-			a[i - 1]++;
-		}	
-	}
-	if (a[0]) {
-		cout << -1;
-		exit(0);
-	}
-}
-
-int used[MAXN];
-
-int cnt[MAXN];
-
-int b[MAXN];
-
-int timer = 1;
-
-bool check() {
-	timer++;
-	for (int i = 1; i <= n ; i++) {
-		if (0 <= a[i] <= 25 && used[a[i]] < timer) {
-			used[a[i]] = timer;
-		} else {
-			return 0;
-		}
-	}
-	return 1;
-}
-
-bool larger() {
-	for (int i = 1; i <= n; i++) {
-		if (a[i] != b[i]) {
-			return a[i] > b[i];
-				
-		}
-	}
-	assert(0);
-}
 
 int main() {
 	#ifdef IZI_KATKA      
@@ -121,20 +77,26 @@ int main() {
     		return  0;
     	}
     }
-    n =  s.size();
-	for (int i = 0; i < s.size(); i++) {
-		a[i + 1] = s[i] - 'a';
-		b[i+1] = s[i] - 'a';
-	}    
-	while(true) {
-		kos();
-		if (check() && larger()) {
-			for (int i = 1; i <= n; i++) {
-				cout << char(a[i] + 'a');
+    memset(cnt, 0, sizeof(cnt));
+    if (s == "zyxwvutsrqponmlkjihgfedcba") {
+    	cout << -1;
+    	return 0;
+    }
+    int mae = 0;
+    char ch;
+    for (int i = 0; i < s.size(); i++) {
+		for (int j = s[i] + 1; j <= 'z'; j++) {
+			if (!cnt[j - 'a']) {
+				mae = i;
+				ch = j;
+				break;
 			}
-			return 0;
-		}
-	}
-	cout << -1;
+		}    	
+		cnt[s[i] - 'a']++;
+    }
+    for (int i = 0; i <= mae - 1; i++) {
+    	cout << s[i];
+    }
+    cout << ch;
     return 0;
 }

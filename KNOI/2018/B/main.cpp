@@ -98,7 +98,7 @@ int main() {
     	}
     }
     for (int i = n; i >= 1; i--) {  //-2^31..2^31-1
-    	for (int k = 1; k <= 50; k++) {
+    	for (int k = 1; k <= 100; k++) {
 			if (a[i]) {
 				if ((nxt[i] + k) / K != (i) / K) {
 					dp[i][k] = 1;				
@@ -136,7 +136,7 @@ int main() {
     	l++;
     	r++;
     	int ans = 0;
-    	if (r - l + 1 <= K || 50 < k) {
+    	if (r - l + 1 <= K || 100 < k) {
     		while (l <= r) {
     			if (a[l]) {
     				l += k;

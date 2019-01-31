@@ -1,0 +1,19 @@
+aa#aaab
+new_S[i] a
+pos 0
+new_S[i] a
+pos 1
+new_S[i] a
+pos 2
+new_S[i] b
+pos 3
+aab#aaab
+new_S[i] a
+pos 0
+new_S[i] a
+pos 1
+new_S[i] a
+pos 2
+new_S[i] b
+pos 3
+1 2 1 1 

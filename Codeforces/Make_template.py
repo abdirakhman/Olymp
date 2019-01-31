@@ -1,10 +1,10 @@
 import os
 print("Name of contest:")
-G = raw_input()
+G = input()
 stxr = "mkdir -p /home/ismail_a/Documents/CODES/Codeforces/" + G
 os.system(stxr)
 print("How many problems:")
-cnt = int(raw_input())
+cnt = int(input())
 for i in range(cnt):
 	sss = "/home/ismail_a/Documents/CODES/Codeforces/" + G + '/' + chr(i+65) +'/'
 	naw = stxr + '/' + chr(i+65)
